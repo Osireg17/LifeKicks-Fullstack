@@ -5,7 +5,7 @@ const Header = () => {
     const showNavigation = () => (
     <nav className="navbar navbar-expand-lg bg-light ">
             <div className="container-fluid">
-            <Link className="navbar-brand" to="#">
+            <Link className="navbar-brand" to="/">
             <img src="/images/Logo.png" alt="LifeKicks Logo" width="50" height="30" className="d-inline-block align-text-top"/>
                 LifeKicks
             </Link>
@@ -14,10 +14,10 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Link className="nav-link" aria-current="page" to="#">Home</Link>
-                        <Link className="nav-link" to="#">Store</Link>
-                        <Link className="nav-link" to="#">Sign In</Link>
-                        <Link className="nav-link" to='#'>Register</Link>
+                        <Link className="nav-link" aria-current="page" to="/">Home</Link>
+                        <Link className="nav-link" to="/store">Store</Link>
+                        <Link className="nav-link" to="/SignIn">Sign In</Link>
+                        <Link className="nav-link" to='/Register'>Register</Link>
                     </div>
                 </div>
             </div>
