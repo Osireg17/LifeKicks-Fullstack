@@ -5,7 +5,7 @@ import validator from 'validator';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import equals from 'validator/lib/isEmpty';
-import ErrorMessage from '../helpers/message';
+import {ErrorMessage, showSuccessMsg} from '../helpers/message';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -46,13 +46,13 @@ const Register = () => {
     }
     
     else {
-      setFormData({ ...formData, errorMsg: false, successMsg: true });
+      setFormData({ ...formData, errorMsg: false, successMsg: 'Form Submitted' });
       console.log('Form submitted');
     }
   }
 
   const SignUpForm = () => (
-    <form className='form-signup' onSubmit={formSubmit}>
+    <form className='form-signup' onSubmit={formSubmit} noValidate>
       <h1 className='RegisterReminder'>Please register</h1>
       <div className="form-floating mb-3">
         <input type="text" className="form-control" id="floatingInput" placeholder="username" name='username' value={username} onChange={handleChange}/>
@@ -86,8 +86,9 @@ const Register = () => {
   )
 
   return <div className="Register-container">
-    {SignUpForm()}
+    {successMsg && showSuccessMsg(successMsg)}
     {errorMsg && ErrorMessage(errorMsg)}
+    {SignUpForm()}
       </div>
 }
 

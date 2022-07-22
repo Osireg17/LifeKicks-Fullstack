@@ -1,10 +1,16 @@
 import React from 'react'
 
-const ErrorMessage = (errorMsg) => (
+const ErrorMessage = (Msg) => (
     <div className="alert alert-danger" role="alert">
-        {errorMsg}
+        {Msg}
     </div>
 );
 
-export default ErrorMessage;
+const showSuccessMsg = (Msg) => (
+    <div className="alert alert-success" role="alert">
+        {Msg}
+    </div>
+)
+
+export {ErrorMessage, showSuccessMsg};
 
