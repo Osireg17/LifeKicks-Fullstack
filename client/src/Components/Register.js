@@ -6,6 +6,9 @@ import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import equals from 'validator/lib/isEmpty';
 import {ErrorMessage, showSuccessMsg} from '../helpers/message';
+import {showLoading} from '../helpers/loading';
+import {RegisterAuth} from '../api/auth';
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +24,11 @@ const Register = () => {
   const { username, email, password, password2, successMsg, errorMsg, loading } = formData;
   
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value }); // ...formData is the spread operator, which takes the formData object and spreads it out into a new object. 
+    setFormData({ ...formData, 
+      [e.target.name]: e.target.value,
+      errorMsg: '',
+      successMsg: '',
+    }); // ...formData is the spread operator, which takes the formData object and spreads it out into a new object. 
     //[e.target.name] is the name of the input field, and e.target.value is the value of the input field.
   }
   
@@ -46,8 +53,25 @@ const Register = () => {
     }
     
     else {
-      setFormData({ ...formData, errorMsg: false, successMsg: 'Form Submitted' });
-      console.log('Form submitted');
+      const { username, email, password } = formData;
+      const data = { username, email, password }; // data is an object with the username, email, and password properties.
+      setFormData({ ...formData, loading: true });// ...formData is the spread operator, which takes the formData object and spreads it out into a new object.
+
+
+      RegisterAuth(data).then(response => {
+        console.log(response);
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+          password2: '',
+          loading: false,
+          successMsg: response.data.SuccessMessage, //I have not created a success message property will do when i create the server.
+        })
+      }).catch(err => {
+        console.log('Axios Signup error',err);
+        setFormData({ ...formData, loading: false });
+      });
     }
   }
 
@@ -81,13 +105,11 @@ const Register = () => {
       </p>
 
     </form>
-
-  
   )
-
   return <div className="Register-container">
     {successMsg && showSuccessMsg(successMsg)}
     {errorMsg && ErrorMessage(errorMsg)}
+    {loading && <div className='text-center pb-4'>{showLoading()}</div>}
     {SignUpForm()}
       </div>
 }
