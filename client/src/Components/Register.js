@@ -70,7 +70,7 @@ const Register = () => {
         })
       }).catch(err => {
         console.log('Axios Signup error',err);
-        setFormData({ ...formData, loading: false });
+        setFormData({ ...formData, loading: false , errorMsg: err.response.data.errorMessage });
       });
     }
   }

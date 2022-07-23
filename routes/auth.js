@@ -1,11 +1,9 @@
 const express = require('express');
+const { RegisterValidator, validatorResult } = require('../middleware/validator');
 const router = express.Router();
 
 
-router.post('/register', (req, res) => {
-    console.log('Inside signup route');
-});
-
+router.post('/register', RegisterValidator, validatorResult);
 
 
 
