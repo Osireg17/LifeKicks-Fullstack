@@ -12,12 +12,21 @@ exports.RegisterValidator = [
     .withMessage("your password should have at least one sepcial character"),
 ]
 
+
+
 exports.validatorResult = (req, res, next) => {
-    const errors = validationResult(req);
-    const hasErrors = !errors.isEmpty()
+    const result = validationResult(req);
+    const hasErrors = !result.isEmpty();
+
     if (hasErrors) {
-        const firstError = results.array()[0].msg;
-        return res.status(422).json({ errorMessage: firstError });
+        const firstError = result.array()[0].msg;
+        return res.status(400).json({
+            errorMessage: firstError,
+        });
+
+        // console.log('hasErrors: ', hasErrors);
+        // console.log('result: ', result);
     }
+
     next();
-}
+};
