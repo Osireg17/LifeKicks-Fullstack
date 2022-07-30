@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './CSS/Register.css';
-import validator from 'validator';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
-import equals from 'validator/lib/isEmpty';
+import isStrongPassword from 'validator/lib/isStrongPassword';
 import {ErrorMessage, showSuccessMsg} from '../helpers/message';
 import {showLoading} from '../helpers/loading';
 import {RegisterAuth} from '../api/auth';
@@ -48,6 +47,9 @@ const Register = () => {
     else if(!isEmail(email)) {
       setFormData({ ...formData, errorMsg: 'Please enter a valid email', loading: false });
     }
+    else if(!isStrongPassword(password, {min: 8, max: 15, uppercase: true, lowercase: true, numbers: true, special: true})) {
+      setFormData({ ...formData, errorMsg: 'Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character', loading: false });
+    }
     else if(password !== password2) {
       setFormData({ ...formData, errorMsg: 'Passwords do not match', loading: false });
     }
@@ -77,7 +79,7 @@ const Register = () => {
 
   const SignUpForm = () => (
     <form className='form-signup' onSubmit={formSubmit} noValidate>
-      <h1 className='RegisterReminder'>Please register</h1>
+      <h1 className='RegisterReminder'>Please Register</h1>
       <div className="form-floating mb-3">
         <input type="text" className="form-control" id="floatingInput" placeholder="username" name='username' value={username} onChange={handleChange}/>
         <label htmlFor='floatingInput'>Username</label>

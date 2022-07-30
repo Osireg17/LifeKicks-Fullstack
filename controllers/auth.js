@@ -54,3 +54,33 @@ exports.RegisterController = async (req, res) => {
     }
 
     }
+
+    exports.SignInController = async (req, res) => {
+        //I have to pull, out all the data from the data entered in on the front end
+        const { username, password } = req.body;
+
+        try{
+            const user = await User.findOne({
+                username
+            });
+            if (!user) {
+                return res.status(400).json({
+                    errorMessage: 'User not found',
+                });
+            }
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({
+                    errorMessage: 'Incorrect password',
+                });
+            }
+            res.status(200).json({
+                SuccessMessage: 'Login successful', //remeber to match the frontend SuccessMessage property name with the backend SuccessMessage
+            });
+        } catch (err) {
+            console.error('Signin error: ', err);
+            res.status(500).send('Server Error');
+        }
+    
+    }
+
